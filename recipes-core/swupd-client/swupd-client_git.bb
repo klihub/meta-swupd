@@ -10,6 +10,7 @@ SRC_URI = "git://github.com/clearlinux/swupd-client.git;protocol=https \
            file://swupd-update-partition.sh \
            file://0001-swupd-show-tar-errors.patch \
            file://0002-downloads-support-mixing-http-and-file-URLs.patch \
+           file://0001-build-fix-doc-generation-for-separate-src-and-build-.patch \
            "
 SRCREV = "89a47cde78331e4a2b1958da847670e3cfa55fae"
 

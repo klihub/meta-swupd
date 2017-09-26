@@ -1,0 +1,25 @@
+From f4825e9e3e9185d3b1231b3fdfdc61982859ef8f Mon Sep 17 00:00:00 2001
+From: Krisztian Litkey <krisztian.litkey@intel.com>
+Date: Tue, 26 Sep 2017 15:56:56 +0300
+Subject: [PATCH 1/1] build: fix doc generation for separate src and build
+ dirs.
+
+---
+ Makefile.am | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Makefile.am b/Makefile.am
+index ba3dc8d..242d4f6 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -279,6 +279,7 @@ clean-local:
+ man: $(dist_man_MANS)
+ 
+ %: %.rst
++	mkdir -p docs
+ 	rst2man.py $< > $@
+ 
+ swupd.bash: $(top_srcdir)/scripts/swupd-completion.sh $(top_srcdir)/swupd
+-- 
+2.13.5
+
