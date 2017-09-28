@@ -32,6 +32,11 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+case ${0##*/} in
+    swupd-update-partition*) EXECED="yes";;
+    *)                       EXECED="";
+esac
+
 set -e
 
 usage () {
@@ -72,7 +77,7 @@ while getopts ":hp:m:c:f:F" opt; do
     case $opt in
         h)
             usage
-            exit 0
+            [ -n "$EXECED" ] && exit 0 || return 0
             ;;
         p)
             PARTITION="$OPTARG"
@@ -91,22 +96,22 @@ while getopts ":hp:m:c:f:F" opt; do
             ;;
         \?)
             log "Invalid option: -$OPTARG" >&2
-            exit 1
+            [ -n "$EXECED" ] && exit 1 || return 1
             ;;
         :)
             log "Option -$OPTARG requires an argument." >&2
-            exit 1
+            [ -n "$EXECED" ] && exit 1 || return 1
             ;;
     esac
 done
 
 if ! [ "$PARTITION" ] || ! [ "$VERSION" ] || ! [ "$CONTENTURL" ]; then
     log "Partion (-p), version (-m), and content url (-c) must be specified." >&2
-    exit 1
+    [ -n "$EXECED" ] && exit 1 || return 1
 fi
 if [ "$FORCE_MKFS" ] && ! [ "$MKFSCMD" ]; then
     log "Filesystem creation requested (-F) without also giving mkfs command (-f)." >&2
-    exit
+    [ -n "$EXECED" ] && exit 1 || return 1
 fi
 
 MOUNTED=
